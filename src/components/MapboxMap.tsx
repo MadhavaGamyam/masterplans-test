@@ -184,6 +184,11 @@ export default function MapboxMap({
   }, [state.selectedData, mapLoaded, removeUnselectedLayers, addLayersToMap, removeAllCustomLayers]);
 
   useEffect(() => {
+    console.log('MapboxMap: Checking access token...');
+    console.log('MAPBOX_ACCESS_TOKEN available:', !!MAPBOX_ACCESS_TOKEN);
+    console.log('MAPBOX_ACCESS_TOKEN length:', MAPBOX_ACCESS_TOKEN?.length || 0);
+    console.log('MAPBOX_ACCESS_TOKEN starts with pk.:', MAPBOX_ACCESS_TOKEN?.startsWith('pk.') || false);
+    
     if (!MAPBOX_ACCESS_TOKEN) {
       console.error('Mapbox access token is required. Please add NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN to your environment variables.');
       return;
