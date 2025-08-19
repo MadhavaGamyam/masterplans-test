@@ -6,7 +6,7 @@ interface LayerData {
   name: string;
   type: string;
   coordinates: number[][];
-  properties: Record<string, any>;
+  properties: Record<string, unknown>;
 }
 
 interface LayerLoadingState {
@@ -95,7 +95,7 @@ export const useLayerLoader = () => {
     } else {
       setState(prev => ({ ...prev, loadedLayers: [] }));
     }
-  }, [layerSelectionState.selectedData]);
+  }, [layerSelectionState.selectedData, hasAnySelections, loadSelectedLayers]);
 
   // Function to clear loaded layers
   const clearLoadedLayers = () => {

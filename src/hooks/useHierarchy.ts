@@ -8,8 +8,8 @@ interface Layer {
   tiles_generated: boolean;
   feature_count: number;
   category: string;
-  bounds: any;
-  tile_urls: any;
+  bounds: unknown;
+  tile_urls: unknown;
 }
 
 interface City {

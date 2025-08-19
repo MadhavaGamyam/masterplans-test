@@ -1,12 +1,8 @@
 'use client';
 
-import { useHierarchy } from '../hooks/useHierarchy';
 import MapboxMap from './MapboxMap';
-import HierarchyDataDisplay from './HierarchyDataDisplay';
 import LayerSelectionModal from './LayerSelectionModal';
 import LayerSelectionButton from './LayerSelectionButton';
-import LayerStatusIndicator from './LayerStatusIndicator';
-import SelectedDataDebug from './SelectedDataDebug';
 
 interface MapContainerProps {
   center?: [number, number];
@@ -20,8 +16,6 @@ export default function MapContainer({
   zoom = 10,
   className = 'w-full h-screen'
 }: MapContainerProps) {
-  const { data, loading, error } = useHierarchy();
-
   return (
     <div className="w-full h-full">
       {/* Header */}

@@ -25,7 +25,7 @@ export default function MapboxMap({
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [currentLayers, setCurrentLayers] = useState<Set<string>>(new Set());
+
 
   const { state } = useLayerSelection();
 
@@ -162,7 +162,6 @@ export default function MapboxMap({
       });
 
       console.log('Removed all custom layers and sources');
-      setCurrentLayers(new Set());
     } catch (error) {
       console.error('Error removing all layers:', error);
     }
@@ -176,14 +175,13 @@ export default function MapboxMap({
         removeUnselectedLayers();
         // Then add new/remaining layers
         addLayersToMap();
-        // Update current layers tracking
-        setCurrentLayers(new Set(state.selectedData.layers_slugs));
+
       } else {
         // No layers selected, remove all custom layers
         removeAllCustomLayers();
       }
     }
-  }, [state.selectedData, mapLoaded]);
+  }, [state.selectedData, mapLoaded, removeUnselectedLayers, addLayersToMap, removeAllCustomLayers]);
 
   useEffect(() => {
     if (!MAPBOX_ACCESS_TOKEN) {

@@ -10,26 +10,11 @@ interface Layer {
   tiles_generated: boolean;
   feature_count: number;
   category: string;
-  bounds: any;
-  tile_urls: any;
+  bounds: unknown;
+  tile_urls: unknown;
 }
 
-interface City {
-  name: string;
-  slug: string;
-  center_lat: number;
-  center_lng: number;
-  is_active: boolean;
-  is_live: boolean;
-  statistics: {
-    total_layers: number;
-    processed_layers: number;
-    layers_with_tiles: number;
-    total_features: number;
-  };
-  status: string;
-  layers: Layer[];
-}
+
 
 interface State {
   name: string;

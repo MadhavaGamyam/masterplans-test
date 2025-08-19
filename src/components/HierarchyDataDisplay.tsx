@@ -3,7 +3,7 @@
 import { useHierarchy } from '../hooks/useHierarchy';
 
 export default function HierarchyDataDisplay() {
-  const { data, loading, error, getAllCities, getTotalStatistics } = useHierarchy();
+  const { data, loading, error, getTotalStatistics } = useHierarchy();
 
   if (loading) {
     return (
@@ -48,7 +48,6 @@ export default function HierarchyDataDisplay() {
   }
 
   const totalStats = getTotalStatistics();
-  const allCities = getAllCities();
 
   return (
     <div className="space-y-6">

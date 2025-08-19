@@ -2,7 +2,7 @@
 
 import { useLayerSelection } from '../contexts/LayerSelectionContext';
 import { useHierarchy } from '../hooks/useHierarchy';
-import { X, MapPin, Layers, Check, Radio } from 'lucide-react';
+import { X, MapPin, Layers } from 'lucide-react';
 
 export default function LayerSelectionModal() {
   const { state, dispatch, isModalOpen, getSelectedLayersCount, getSelectedCitiesCount, hasAnySelections } = useLayerSelection();
