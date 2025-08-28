@@ -2,52 +2,6 @@
 
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
 
-interface Layer {
-  id: number;
-  name: string;
-  slug: string;
-  description: string;
-  file_info: {
-    original_filename: string;
-    file_format: string;
-    file_path: string;
-    is_directory: boolean;
-    file_pattern: string;
-    source_files_count: number;
-  };
-  category: {
-    code: string;
-    name: string;
-  };
-  geometry_info: {
-    geometry_type: string | null;
-    has_valid_bbox: boolean;
-    bounds: unknown;
-    center_point: unknown;
-  };
-  processing_status: {
-    is_processed: boolean;
-    tiles_generated: boolean;
-    feature_count: number;
-    processing_errors: string;
-  };
-  tile_info: {
-    tiles_generated: boolean;
-    tile_cache_size: number;
-    tile_urls: unknown;
-  };
-  metadata: {
-    data_source: string;
-    last_updated: string | null;
-    created_at: string;
-    updated_at: string;
-  };
-  statistics: {
-    feature_count: number;
-    file_breakdown: unknown;
-  };
-}
-
 interface State {
   id: number;
   name: string;
@@ -66,7 +20,53 @@ interface State {
     total_layers: number;
     total_features: number;
   };
-  cities: any[]; // Using any for now to avoid circular dependency
+  cities: Array<{
+    id: number;
+    name: string;
+    slug: string;
+    state: {
+      name: string;
+      slug: string;
+      code: string;
+    };
+    map_settings: {
+      center_lat: number;
+      center_lng: number;
+      min_zoom: number;
+      max_zoom: number;
+    };
+    status: {
+      is_active: boolean;
+      is_live: boolean;
+      status: string;
+    };
+    statistics: {
+      total_layer_groups: number;
+      total_layers: number;
+      layers_with_tiles: number;
+      total_features: number;
+      standalone_layers: number;
+    };
+    styling: Record<string, unknown>;
+    layer_groups: unknown[];
+    standalone_layers: Array<{
+      id: number;
+      name: string;
+      slug: string;
+      description: string;
+      category: {
+        code: string;
+        name: string;
+      };
+      processing_status: {
+        is_processed: boolean;
+        tiles_generated: boolean;
+        feature_count: number;
+        processing_errors: string;
+      };
+    }>;
+    created_at: string;
+  }>;
   created_at: string;
 }
 
