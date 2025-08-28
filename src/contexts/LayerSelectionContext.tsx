@@ -3,26 +3,71 @@
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
 
 interface Layer {
+  id: number;
   name: string;
   slug: string;
-  status: string;
-  is_live: boolean;
-  tiles_generated: boolean;
-  feature_count: number;
-  category: string;
-  bounds: unknown;
-  tile_urls: unknown;
+  description: string;
+  file_info: {
+    original_filename: string;
+    file_format: string;
+    file_path: string;
+    is_directory: boolean;
+    file_pattern: string;
+    source_files_count: number;
+  };
+  category: {
+    code: string;
+    name: string;
+  };
+  geometry_info: {
+    geometry_type: string | null;
+    has_valid_bbox: boolean;
+    bounds: unknown;
+    center_point: unknown;
+  };
+  processing_status: {
+    is_processed: boolean;
+    tiles_generated: boolean;
+    feature_count: number;
+    processing_errors: string;
+  };
+  tile_info: {
+    tiles_generated: boolean;
+    tile_cache_size: number;
+    tile_urls: unknown;
+  };
+  metadata: {
+    data_source: string;
+    last_updated: string | null;
+    created_at: string;
+    updated_at: string;
+  };
+  statistics: {
+    feature_count: number;
+    file_breakdown: unknown;
+  };
 }
 
-
-
 interface State {
+  id: number;
   name: string;
   slug: string;
   code: string;
-  center_lat: number | null;
-  center_lng: number | null;
-  is_active: boolean;
+  map_settings: {
+    center_lat: number | null;
+    center_lng: number | null;
+    default_zoom: number;
+  };
+  status: {
+    is_active: boolean;
+  };
+  statistics: {
+    total_cities: number;
+    total_layers: number;
+    total_features: number;
+  };
+  cities: any[]; // Using any for now to avoid circular dependency
+  created_at: string;
 }
 
 interface SelectedLayerData {

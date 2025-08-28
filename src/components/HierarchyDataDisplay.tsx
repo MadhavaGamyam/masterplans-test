@@ -90,7 +90,7 @@ export default function HierarchyDataDisplay() {
           </div>
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
             <span className="font-medium text-gray-700">Total States:</span>
-            <span className="text-gray-900 font-semibold">{data.total_states}</span>
+            <span className="text-gray-900 font-semibold">{data.global_statistics.total_states}</span>
           </div>
         </div>
       </div>
@@ -100,15 +100,15 @@ export default function HierarchyDataDisplay() {
         <h3 className="text-xl font-semibold text-gray-900 mb-4">States & Cities Breakdown</h3>
         <div className="space-y-4 max-h-96 overflow-y-auto">
           {data.hierarchy.map((stateData) => (
-            <div key={stateData.state.code} className="border border-gray-200 rounded-lg p-4">
+            <div key={stateData.code} className="border border-gray-200 rounded-lg p-4">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="text-lg font-semibold text-gray-900">
-                  {stateData.state.name} ({stateData.state.code})
+                  {stateData.name} ({stateData.code})
                 </h4>
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                  stateData.state.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                  stateData.status.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                 }`}>
-                  {stateData.state.is_active ? 'Active' : 'Inactive'}
+                  {stateData.status.is_active ? 'Active' : 'Inactive'}
                 </span>
               </div>
               
@@ -140,7 +140,7 @@ export default function HierarchyDataDisplay() {
                       </div>
                       <div className="text-right">
                         <div className="text-xs text-gray-500">
-                          {city.center_lat?.toFixed(4)}, {city.center_lng?.toFixed(4)}
+                          {city.map_settings.center_lat?.toFixed(4)}, {city.map_settings.center_lng?.toFixed(4)}
                         </div>
                         <div className="text-xs text-gray-500">
                           {city.statistics.total_features.toLocaleString()} features

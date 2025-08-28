@@ -10,7 +10,7 @@ export default function LayerSelectionModal() {
 
   const handleStateChange = (stateSlug: string) => {
     if (hierarchyData && stateSlug) {
-      const selectedState = hierarchyData.hierarchy.find(item => item.state.slug === stateSlug)?.state || null;
+      const selectedState = hierarchyData.hierarchy.find(item => item.slug === stateSlug) || null;
       console.log('State change:', { stateSlug, selectedState });
       dispatch({ type: 'SET_SELECTED_STATE', payload: selectedState });
     } else if (!stateSlug) {
@@ -38,20 +38,20 @@ export default function LayerSelectionModal() {
   };
 
   const selectedStateData = hierarchyData?.hierarchy.find(item => 
-    item.state.code === state.selectedData?.state_slug || 
-    item.state.slug === state.selectedData?.state_slug
+    item.code === state.selectedData?.state_slug || 
+    item.slug === state.selectedData?.state_slug
   );
   const selectedCityData = selectedStateData?.cities.find(city => city.slug === state.selectedData?.city_slug);
   
   console.log('Modal render:', {
     stateSlug: state.selectedData?.state_slug,
     citySlug: state.selectedData?.city_slug,
-    selectedStateData: selectedStateData?.state.name,
+    selectedStateData: selectedStateData?.name,
     selectedCityData: selectedCityData?.name,
     hierarchyData: hierarchyData?.hierarchy.map(h => ({ 
-      code: h.state.code, 
-      slug: h.state.slug,
-      name: h.state.name 
+      code: h.code, 
+      slug: h.slug,
+      name: h.name 
     })),
     foundStateData: selectedStateData ? 'Found' : 'Not Found'
   });
@@ -102,8 +102,8 @@ export default function LayerSelectionModal() {
             >
               <option value="">Choose a state...</option>
               {hierarchyData?.hierarchy.map((stateData) => (
-                <option key={stateData.state.slug} value={stateData.state.slug}>
-                  {stateData.state.name} ({stateData.state.code})
+                <option key={stateData.slug} value={stateData.slug}>
+                  {stateData.name} ({stateData.code})
                 </option>
               ))}
             </select>
@@ -118,7 +118,7 @@ export default function LayerSelectionModal() {
               <div className="flex items-center space-x-2 mb-2">
                 <MapPin className="w-5 h-5 text-blue-600" />
                 <h3 className="text-lg font-semibold text-blue-900">
-                  {selectedStateData.state.name} ({selectedStateData.state.code})
+                  {selectedStateData.name} ({selectedStateData.code})
                 </h3>
               </div>
               <p className="text-blue-700">
@@ -140,7 +140,7 @@ export default function LayerSelectionModal() {
                 Looking for: {state.selectedData.state_slug}
               </div>
               <div className="text-sm text-red-600">
-                Available: {hierarchyData?.hierarchy.map(h => h.state.slug).join(', ')}
+                Available: {hierarchyData?.hierarchy.map(h => h.slug).join(', ')}
               </div>
             </div>
           )}
@@ -179,9 +179,9 @@ export default function LayerSelectionModal() {
           {state.selectedData.city_slug && selectedCityData && (
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-3">Select Layers for {selectedCityData.name}</h3>
-              {selectedCityData.layers.length > 0 ? (
+              {selectedCityData.standalone_layers && selectedCityData.standalone_layers.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {selectedCityData.layers.map((layer) => {
+                  {selectedCityData.standalone_layers.map((layer) => {
                     const isSelected = state.selectedData.layers_slugs.includes(layer.slug);
                     return (
                       <label
@@ -197,7 +197,7 @@ export default function LayerSelectionModal() {
                         <div>
                           <div className="font-medium text-gray-900">{layer.name}</div>
                           <div className="text-sm text-gray-500">
-                            {layer.feature_count.toLocaleString()} features • {layer.category}
+                            {layer.processing_status.feature_count.toLocaleString()} features • {layer.category.name}
                           </div>
                         </div>
                       </label>
@@ -219,7 +219,7 @@ export default function LayerSelectionModal() {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                 <div>
                   <span className="font-medium text-green-700">Selected State:</span>
-                  <div className="text-green-900">{selectedStateData?.state.name}</div>
+                  <div className="text-green-900">{selectedStateData?.name}</div>
                 </div>
                 <div>
                   <span className="font-medium text-green-700">Selected City:</span>
