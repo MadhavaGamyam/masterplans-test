@@ -5,6 +5,7 @@ interface Layer {
   name: string;
   slug: string;
   description: string;
+  is_true: boolean;
   file_info: {
     original_filename: string;
     file_format: string;

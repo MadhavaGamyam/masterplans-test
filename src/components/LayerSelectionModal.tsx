@@ -182,6 +182,7 @@ export default function LayerSelectionModal() {
               {selectedCityData.standalone_layers && selectedCityData.standalone_layers.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {selectedCityData.standalone_layers.map((layer) => {
+                    if(!layer.is_true) return null;
                     const isSelected = state.selectedData.layers_slugs.includes(layer.slug);
                     return (
                       <label
