@@ -8,82 +8,6 @@ import { useLayerSelection } from '../contexts/LayerSelectionContext';
 // Fix for default markers in Leaflet
 import L from 'leaflet';
 
-// Static city bounds mapping based on actual API response cities
-const CITY_BOUNDS: Record<string, { center: [number, number]; zoom: number }> = {
-  // Andhra Pradesh cities
-  'amaravati': { center: [16.5062, 80.648], zoom: 11 },
-  'tirupati': { center: [13.6288, 79.4192], zoom: 11 },
-  'vijaywada___guntur___tenali___mangalagiri': { center: [20.5937, 78.9629], zoom: 11 },
-  'kakinada': { center: [16.9891, 82.2475], zoom: 11 },
-  'vizag': { center: [17.6868, 83.2185], zoom: 11 },
-  'visakhapatnam': { center: [17.6868, 83.2185], zoom: 11 },
-  
-  // Delhi cities
-  'delhi': { center: [28.6139, 77.209], zoom: 11 },
-  'gurgaon': { center: [28.4595, 77.0266], zoom: 11 },
-  'noida': { center: [28.5355, 77.391], zoom: 11 },
-  'yeida': { center: [28.4844, 77.5662], zoom: 11 },
-  'faridabad': { center: [28.4089, 77.3178], zoom: 11 },
-  'gr._noida': { center: [20.5937, 78.9629], zoom: 11 },
-  'ghaziabad': { center: [28.6692, 77.4538], zoom: 11 },
-  'sonipat': { center: [28.9931, 77.0151], zoom: 11 },
-  'kharkhauda': { center: [28.8818, 76.9066], zoom: 11 },
-  'bahadurgarh': { center: [28.6928, 76.9378], zoom: 11 },
-  'sampla': { center: [28.7584, 76.7778], zoom: 11 },
-  'badli': { center: [28.725, 77.0833], zoom: 11 },
-  'badsa': { center: [28.0167, 76.8833], zoom: 11 },
-  'farukhnagar': { center: [28.4333, 76.8167], zoom: 11 },
-  'pataudi': { center: [28.3256, 76.7878], zoom: 11 },
-  'dharuhera': { center: [28.2042, 76.7953], zoom: 11 },
-  'gwal_pahari': { center: [28.4457, 77.1367], zoom: 11 },
-  'sohna': { center: [28.275, 77.0667], zoom: 11 },
-  'pirthala': { center: [28.8833, 76.6167], zoom: 11 },
-  'palwal': { center: [28.1441, 77.3263], zoom: 11 },
-  'loni': { center: [28.7485, 77.2849], zoom: 11 },
-  'bhagpat___baraut___khekra': { center: [20.5937, 78.9629], zoom: 11 },
-  'modinagar': { center: [28.9167, 77.5833], zoom: 11 },
-  'bhiwadi': { center: [28.2099, 76.86], zoom: 11 },
-  
-  // Gujarat cities
-  'ahmedabad___gandhinagar': { center: [20.5937, 78.9629], zoom: 11 },
-  
-  // Karnataka cities
-  'bmrda': { center: [12.8406, 77.6602], zoom: 11 },
-  'bengaluru': { center: [12.9716, 77.5946], zoom: 11 },
-  
-  // Kerala cities
-  'kochi': { center: [9.9312, 76.2673], zoom: 11 },
-  
-  // Madhya Pradesh cities
-  'bhopal': { center: [23.2599, 77.4126], zoom: 11 },
-  'indore': { center: [22.7196, 75.8577], zoom: 11 },
-  'pithampur': { center: [22.6022, 75.6854], zoom: 11 },
-  
-  // Maharashtra cities
-  'mumbai': { center: [19.076, 72.8777], zoom: 11 },
-  
-  // Odisha cities
-  'bhubaneshwar': { center: [20.2961, 85.8245], zoom: 11 },
-  
-  // Punjab cities
-  'chandigarh': { center: [30.7333, 76.7794], zoom: 11 },
-  
-  // Rajasthan cities
-  'jaipur': { center: [26.9124, 75.7873], zoom: 11 },
-  'jodhpur': { center: [26.2389, 73.0243], zoom: 11 },
-  'ajmer': { center: [26.4499, 74.6399], zoom: 11 },
-  'udaipur': { center: [24.5854, 73.7125], zoom: 11 },
-  
-  // Tamil Nadu cities
-  'chennai': { center: [13.0827, 80.2707], zoom: 11 },
-  'hosur': { center: [12.7409, 77.8253], zoom: 11 },
-  'coimbatore': { center: [11.0168, 76.9558], zoom: 11 },
-  
-  // Telangana cities
-  'hyderabad': { center: [17.385044, 78.486671], zoom: 11 },
-  'warangal': { center: [17.9784, 79.6], zoom: 11 },
-};
-
 // Extend the Layer interface to include our custom layerId
 interface CustomTileLayer extends L.TileLayer {
   layerId?: string;
@@ -112,25 +36,6 @@ function LayerManager() {
   const map = useMap();
   const { state } = useLayerSelection();
   const [mapLoaded, setMapLoaded] = useState(false);
-
-  // Function to fly to city bounds
-  const flyToCityBounds = () => {
-    if (!map || !mapLoaded || !state.selectedData.city_slug) {
-      return;
-    }
-
-    const cityBounds = CITY_BOUNDS[state.selectedData.city_slug];
-    if (cityBounds) {
-      console.log(`Flying to city bounds for ${state.selectedData.city_slug}:`, cityBounds);
-      map.flyTo(cityBounds.center, cityBounds.zoom, {
-        duration: 1.5, // Animation duration in seconds
-        easeLinearity: 0.1,
-        noMoveStart: false,
-      });
-    } else {
-      console.warn(`No city bounds found for city: ${state.selectedData.city_slug}`);
-    }
-  };
 
   // Function to add layers to the map
   const addLayersToMap = () => {
@@ -239,8 +144,6 @@ function LayerManager() {
         removeUnselectedLayers();
         // Then add new/remaining layers
         addLayersToMap();
-        // Finally fly to city bounds
-        flyToCityBounds();
       } else {
         // No layers selected, remove all custom layers
         removeAllCustomLayers();
