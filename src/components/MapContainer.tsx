@@ -1,6 +1,6 @@
 'use client';
 
-import LeafletMap from './LeafletMap';
+import MapboxMap from './MapboxMap';
 import LayerSelectionModal from './LayerSelectionModal';
 import LayerSelectionButton from './LayerSelectionButton';
 
@@ -19,7 +19,7 @@ export default function MapContainer({
   return (
     <div className="relative w-full h-full">
       {/* Map - Full Screen */}
-      <LeafletMap
+      <MapboxMap
         center={center}
         zoom={zoom}
         className={className}
