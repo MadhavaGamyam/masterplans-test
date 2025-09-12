@@ -38,8 +38,8 @@ export default function LayerSelectionModal() {
   };
 
   const selectedStateData = hierarchyData?.hierarchy.find(item => 
-    item.code === state.selectedData?.state_slug || 
-    item.slug === state.selectedData?.state_slug
+    item?.code === state.selectedData?.state_slug || 
+    item?.slug === state.selectedData?.state_slug
   );
   const selectedCityData = selectedStateData?.cities.find(city => city.slug === state.selectedData?.city_slug);
   
@@ -101,7 +101,7 @@ export default function LayerSelectionModal() {
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="">Choose a state...</option>
-              {hierarchyData?.hierarchy.map((stateData) => (
+              {hierarchyData?.hierarchy.filter(Boolean).map((stateData) => (
                 <option key={stateData.slug} value={stateData.slug}>
                   {stateData.name} ({stateData.code})
                 </option>
